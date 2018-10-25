@@ -9,8 +9,11 @@ Docker version 18
 ### Setup
 
 ```
-./gradlew build //build the jar file
-docker -t testonpr-manual //create the docker image
-docker run -p 8080:8080 testonpr-manual // Start up the docker container and connect localhost:8080 to the exposed port
+//build the jar file
+./gradlew build 
+//create the docker image
+docker -t testonpr-manual 
+// Start up the docker container and connect localhost:8080 to the exposed port
+docker run -p 8080:8080 testonpr-manual 
 ```
 Visit localhost:8080/uptime to verify functionality
