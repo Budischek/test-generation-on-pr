@@ -27,6 +27,7 @@ public class GitServiceTests {
 
   @Test
   public void testCloneRepository() throws IOException{
+    Assert.assertTrue(false);
     String repoUrl = "https://github.com/trein/dev-best-practices";
     String path = folder.newFolder("tmp").getPath();
 
