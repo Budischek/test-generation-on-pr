@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 public class GitService {
 
   public void cloneRepository() {
-    String repoUrl = "https://github.com/eclipse/jgit.git";
-    String path = "tmp";
+    String repoUrl = "https://github.com/trein/dev-best-practices";
+    String path = "repositoryToTest";
     try {
       System.out.println("Cloning "+repoUrl+" into "+ path);
       Git.cloneRepository()
-              .setURI("https://github.com/eclipse/jgit.git")
+              .setURI(repoUrl)
               .setDirectory(new File(path))
               .call();
       System.out.println("Completed Cloning");
