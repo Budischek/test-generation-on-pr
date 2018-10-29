@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GitService {
 
-  public void cloneRepository() {
-    String repoUrl = "https://github.com/trein/dev-best-practices";
-    String path = "repositoryToTest";
+  public void cloneRepository(String repoUrl, String path) {
     try {
       System.out.println("Cloning "+repoUrl+" into "+ path);
       Git.cloneRepository()

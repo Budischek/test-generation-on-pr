@@ -18,7 +18,10 @@ public class UptimeController {
 
   @GetMapping("/test")
   public String test() {
-    gitService.cloneRepository();
+    String repoUrl = "https://github.com/trein/dev-best-practices";
+    String path = "repositoryToTest";
+
+    gitService.cloneRepository(repoUrl, path);
 
     return "success";
   }
