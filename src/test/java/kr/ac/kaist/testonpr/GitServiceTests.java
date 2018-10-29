@@ -26,8 +26,7 @@ public class GitServiceTests {
   public TemporaryFolder folder= new TemporaryFolder();
 
   @Test
-  public void testCloneRepository() throws IOException{
-    Assert.assertTrue(false);
+  public void testCloneRepository() throws IOException {
     String repoUrl = "https://github.com/trein/dev-best-practices";
     String path = folder.newFolder("tmp").getPath();
 
