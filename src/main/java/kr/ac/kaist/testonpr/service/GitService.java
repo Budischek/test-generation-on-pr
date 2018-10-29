@@ -2,6 +2,9 @@ package kr.ac.kaist.testonpr.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -27,16 +30,19 @@ public class GitService {
     }
   }
 
-  public void apiTest() {
+  public List<String> getPullRequests() {
     try {
       GitHub gitHub = GitHub.connect();
 
-      GHRepository repo = gitHub.getRepository("test-generation-on-pr");
+      GHRepository repo = gitHub.getRepository("budischek/test-generation-on-pr");
 
-      repo.getPullRequests(GHIssueState.ALL).forEach(pr -> System.out.println(pr.getTitle()));
+      return repo.getPullRequests(GHIssueState.ALL).stream()
+              .map(pr -> pr.getTitle())
+              .collect(Collectors.toList());
     } catch(IOException e) {
-      System.out.println("Error connecting to GitHub API, did you include your DevToken?");
-      e.printStackTrace();
+      List<String> error = new ArrayList<>();
+      error.add("Error connecting to GitHub API, did you include your DevToken?");
+      return error;
     }
   }
 

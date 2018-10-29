@@ -13,19 +13,6 @@ public class UptimeController {
   @Autowired
   UptimeLogicBean uptimeLogicBean;
 
-  @Autowired
-  GitService gitService;
-
-  @GetMapping("/test")
-  public String cloneRepository() {
-    String repoUrl = "https://github.com/trein/dev-best-practices";
-    String path = "repositoryToTest";
-
-    gitService.cloneRepository(repoUrl, path);
-
-    return "success";
-  }
-
   @GetMapping("/uptime")
   public long getUptime() {
     return uptimeLogicBean.getUptime();
