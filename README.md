@@ -21,7 +21,7 @@ Deploy using Docker
 //build the jar file
 ./gradlew build 
 //create the docker image
-docker -t testonpr-manual 
+docker build -t testonpr-manual 
 // Start up the docker container and connect localhost:8080 to the exposed port
 docker run -p 8080:8080 testonpr-manual 
 ```
