@@ -11,10 +11,14 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GitService {
+
+  @Value("${github-oauth}")
+  private String token;
 
   public void cloneRepository(String repoUrl, String path) {
     try {
@@ -32,7 +36,7 @@ public class GitService {
 
   public List<String> getPullRequests() {
     try {
-      GitHub gitHub = GitHub.connect();
+      GitHub gitHub = GitHub.connectUsingOAuth(token);
 
       GHRepository repo = gitHub.getRepository("budischek/test-generation-on-pr");
 
