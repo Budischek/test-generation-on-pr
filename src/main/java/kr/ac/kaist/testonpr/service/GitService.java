@@ -36,9 +36,7 @@ public class GitService {
 
   public List<String> getPullRequests() {
     try {
-      GitHub gitHub = GitHub.connectUsingOAuth(token);
-
-      GHRepository repo = gitHub.getRepository("budischek/test-generation-on-pr");
+      GHRepository repo = getRepository();
 
       return repo.getPullRequests(GHIssueState.ALL).stream()
               .map(pr -> pr.getTitle())
@@ -50,4 +48,10 @@ public class GitService {
     }
   }
 
+  //Visible for testing
+  public GHRepository getRepository() throws IOException{
+    GitHub gitHub = GitHub.connectUsingOAuth(token);
+
+    return gitHub.getRepository("budischek/test-generation-on-pr");
+  }
 }
