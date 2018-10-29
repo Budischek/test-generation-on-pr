@@ -6,8 +6,16 @@ Automatically extend the existing test suite to accommodate changes in Pull Requ
 ### Prerequisites
 Docker version 18
 
-### Setup
+### Workflow
+Create a new feature branch for each feature/bugfix, do not merge to master unless code was reviewed by at least one other team member
 
+### Setup
+Run on locally
+```
+./gradlew bootRun
+```
+
+Deploy using Docker
 ```
 //build the jar file
 ./gradlew build 
