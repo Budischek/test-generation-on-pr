@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
+import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,5 +36,12 @@ public class GitServiceTests {
     File file = new File(path + "README.md");
 
     Assert.assertNotNull(file);
+  }
+
+  @Test
+  public void testGitHubAPI() throws IOException{
+    GHRepository repo = gitService.getRepository();
+
+    Assert.assertNotNull(repo);
   }
 }
