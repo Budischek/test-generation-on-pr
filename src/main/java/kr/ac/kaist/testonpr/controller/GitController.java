@@ -17,7 +17,7 @@ public class GitController {
 
   @RequestMapping("/clone")
   public String cloneRepository() {
-    String repoUrl = "https://github.com/trein/dev-best-practices";
+    String repoUrl = "github.com:lolcodez/CS454.git";
     String path = "repositoryToTest";
 
     gitService.cloneRepository(repoUrl, path);
