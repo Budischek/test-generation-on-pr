@@ -41,7 +41,7 @@ public class GitController {
   }
 
   @RequestMapping("/addCoverageCheck")
-  public String getAST() throws IOException {
+  public String checkCoverage() throws IOException {
     return coverageLogicBean.addCheckpoint("repositoryToTest/code/Program0.java", 4);
   }
 }

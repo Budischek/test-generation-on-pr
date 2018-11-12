@@ -28,7 +28,7 @@ public class CoverageLogicBean {
 
             return cu.toString();
         } catch (Exception e) {
-            return e.getStackTrace().toString();
+            return e.toString();
         }
     }
 }
