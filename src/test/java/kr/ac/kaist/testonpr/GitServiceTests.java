@@ -1,9 +1,6 @@
 package kr.ac.kaist.testonpr;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import kr.ac.kaist.testonpr.service.GitService;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import kr.ac.kaist.testonpr.service.GitService;
+import java.io.File;
+import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,6 +20,8 @@ public class GitServiceTests {
 
   @Autowired
   GitService gitService;
+
+  private String TEST_REPOSITORY = "budischek/CS454";
 
   @Rule
   public TemporaryFolder folder= new TemporaryFolder();
@@ -40,7 +40,7 @@ public class GitServiceTests {
 
   @Test
   public void testGitHubAPI() throws IOException{
-    GHRepository repo = gitService.getRepository();
+    GHRepository repo = gitService.getRepository(TEST_REPOSITORY);
 
     Assert.assertNotNull(repo);
   }
