@@ -1,19 +1,19 @@
 package kr.ac.kaist.testonpr.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GitService {
@@ -23,6 +23,8 @@ public class GitService {
 
   public void cloneRepository(String repoUrl, String path) {
     try {
+      System.out.println("Deleting "+ path);
+      FileUtils.deleteDirectory(new File(path));
       System.out.println("Cloning "+repoUrl+" into "+ path);
       Git.cloneRepository()
               .setURI(repoUrl)
@@ -33,7 +35,7 @@ public class GitService {
               )
               .call();
       System.out.println("Completed Cloning");
-    } catch (GitAPIException e) {
+    } catch (Exception e) {
       System.out.println("Exception occurred while cloning repo");
       e.printStackTrace();
     }
@@ -57,6 +59,6 @@ public class GitService {
   public GHRepository getRepository() throws IOException{
     GitHub gitHub = GitHub.connectUsingOAuth(token);
 
-    return gitHub.getRepository("budischek/test-generation-on-pr");
+    return gitHub.getRepository("budischek/CS454");
   }
 }
