@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -26,6 +27,10 @@ public class GitService {
       Git.cloneRepository()
               .setURI(repoUrl)
               .setDirectory(new File(path))
+              .setCredentialsProvider(
+                      new UsernamePasswordCredentialsProvider("CS454-Test-on-PR",
+                              "cs454testonpr")
+              )
               .call();
       System.out.println("Completed Cloning");
     } catch (GitAPIException e) {

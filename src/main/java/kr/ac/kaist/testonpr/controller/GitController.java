@@ -10,6 +10,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +27,11 @@ public class GitController {
   CoverageLogicBean coverageLogicBean;
 
   @RequestMapping("/clone")
-  public String cloneRepository() {
-    String repoUrl = "github.com:lolcodez/CS454.git";
+  public String cloneRepository() throws IOException{
+    String repoUrl = "https://github.com/lolcodez/CS454.git";
     String path = "repositoryToTest";
+
+    FileUtils.deleteDirectory(new File(path));
 
     gitService.cloneRepository(repoUrl, path);
 
