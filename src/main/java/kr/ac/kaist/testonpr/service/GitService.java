@@ -3,9 +3,7 @@ package kr.ac.kaist.testonpr.service;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.kohsuke.github.GHIssueState;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
+import org.kohsuke.github.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,8 @@ public class GitService {
 
   @Value("${github-oauth}")
   private String token;
+
+  private String TEST_REPOSITORY = "budischek/CS454";
 
   public void cloneRepository(String repoUrl, String path) {
     try {
@@ -43,7 +43,7 @@ public class GitService {
 
   public List<String> getPullRequests() {
     try {
-      GHRepository repo = getRepository();
+      GHRepository repo = getRepository(TEST_REPOSITORY);
 
       return repo.getPullRequests(GHIssueState.ALL).stream()
               .map(pr -> pr.getTitle())
@@ -55,10 +55,33 @@ public class GitService {
     }
   }
 
-  //Visible for testing
-  public GHRepository getRepository() throws IOException{
-    GitHub gitHub = GitHub.connectUsingOAuth(token);
+  public void commentOnPr(int id, String msg) {
+    GHRepository repo = getRepository(TEST_REPOSITORY);
 
-    return gitHub.getRepository("budischek/CS454");
+    try {
+      GHPullRequest pr = repo.getPullRequest(id);
+
+      pr.createReview()
+          .commitId(pr.listCommits().asList().get(0).getSha())
+          .body(msg)
+          .event(GHPullRequestReviewEvent.COMMENT)
+          .create();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  //Visible for testing
+  public GHRepository getRepository(String path) {
+    try {
+
+      GitHub gitHub = GitHub.connectUsingOAuth(token);
+
+      return gitHub.getRepository(path);
+    } catch(IOException e) {
+        e.printStackTrace();
+        return null;
+    }
   }
 }

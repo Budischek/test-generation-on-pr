@@ -1,13 +1,16 @@
 package kr.ac.kaist.testonpr.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
 import kr.ac.kaist.testonpr.service.GitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GitController {
@@ -39,8 +42,14 @@ public class GitController {
   }
 
   @RequestMapping("prWebhook")
-  public void prWebhook(String text) {
-    System.out.println(text);
-    System.out.println("###################");
+  public String prWebhook(@RequestBody String payload) throws IOException{
+    Map<?, ?> payloadMap = new ObjectMapper().readValue(payload, Map.class);
+    Map<?,?> pr = (Map<?, ?>) payloadMap.get("pull_request");
+
+    Integer prId = (Integer)pr.get("number");
+
+    System.out.println("Commenting on PullRequest #" + prId);
+    gitService.commentOnPr(prId, "Test");
+    return "OK";
   }
 }
