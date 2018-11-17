@@ -1,13 +1,16 @@
 package kr.ac.kaist.testonpr.controller;
 
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
+import kr.ac.kaist.testonpr.service.GitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.ac.kaist.testonpr.service.GitService;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GitController {
@@ -15,9 +18,12 @@ public class GitController {
   @Autowired
   GitService gitService;
 
+  @Autowired
+  CoverageLogicBean coverageLogicBean;
+
   @RequestMapping("/clone")
   public String cloneRepository() {
-    String repoUrl = "https://github.com/trein/dev-best-practices";
+    String repoUrl = "https://github.com/budischek/CS454.git";
     String path = "repositoryToTest";
 
     gitService.cloneRepository(repoUrl, path);
@@ -28,5 +34,22 @@ public class GitController {
   @RequestMapping("/prs")
   public List<String> getPullRequests() {
     return gitService.getPullRequests();
+  }
+
+  @RequestMapping("/addCoverageCheck")
+  public String checkCoverage() throws IOException {
+    return coverageLogicBean.addCheckpoint("repositoryToTest/code/Program0.java", 4);
+  }
+
+  @RequestMapping("prWebhook")
+  public String prWebhook(@RequestBody String payload) throws IOException{
+    Map<?, ?> payloadMap = new ObjectMapper().readValue(payload, Map.class);
+    Map<?,?> pr = (Map<?, ?>) payloadMap.get("pull_request");
+
+    Integer prId = (Integer)pr.get("number");
+
+    System.out.println("Commenting on PullRequest #" + prId);
+    gitService.commentOnPr(prId, "Test");
+    return "OK";
   }
 }
