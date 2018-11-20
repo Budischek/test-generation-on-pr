@@ -25,8 +25,7 @@ public class DevController {
   //Use only for development (e.g. call w/e you are currently working on)
   @RequestMapping("/dev")
   public String devController() throws Exception {
-    final boolean[] res = getProbeActivation("repositoryToTest/code/jacoco.exec");
-    System.out.println(res.length);
+    Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
     return "OK";
   }
 

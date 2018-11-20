@@ -5,16 +5,17 @@ import com.github.javaparser.ast.CompilationUnit;
 import org.jacoco.core.data.*;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 @Component
 public class CoverageLogicBean {
 
     private class ProbeResult {
         boolean[] result = null;
+    }
+
+    public void runTests() throws IOException {
+        Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
     }
 
     public boolean[] getProbeActivation(String pathToExec) throws FileNotFoundException {
