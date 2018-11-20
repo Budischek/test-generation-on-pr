@@ -14,6 +14,7 @@ public class CoverageLogicBean {
         boolean[] result = null;
     }
 
+    //TODO: run individual tests instead of whole suite
     public void runTests() throws IOException {
         Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
     }
