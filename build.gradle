@@ -34,5 +34,6 @@ dependencies {
     implementation('org.kohsuke:github-api:1.94')
 	implementation('com.github.javaparser:javaparser-symbol-solver-core:3.7.0')
 	implementation('junit:junit:4.12')
+	implementation('org.jacoco:jacoco:0.8.2')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
