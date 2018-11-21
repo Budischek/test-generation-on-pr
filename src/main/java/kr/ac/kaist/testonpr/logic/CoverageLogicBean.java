@@ -16,10 +16,13 @@ public class CoverageLogicBean {
 
     //TODO: run individual tests instead of whole suite
     public void runTests() throws IOException {
-        Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
+        Process proc = Runtime.getRuntime().exec("java " +
+            "-javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  " +
+            "-cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  " +
+            "org.junit.runner.JUnitCore TestSuite\n");
     }
 
-    public boolean[] getProbeActivation(String pathToExec) throws FileNotFoundException {
+    public boolean[] getProbeActivation(String pathToExec, String classUnderTest) throws FileNotFoundException {
         final FileInputStream in = new FileInputStream(pathToExec);
         final ExecutionDataReader reader = new ExecutionDataReader(in);
 
@@ -31,7 +34,7 @@ public class CoverageLogicBean {
         });
         reader.setExecutionDataVisitor(new IExecutionDataVisitor() {
             public void visitClassExecution(final ExecutionData data) {
-                if(!data.getName().equals("Class1")) return;
+                if(!data.getName().equals(classUnderTest)) return;
 
                 result.result = data.getProbes();
             }

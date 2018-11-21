@@ -1,5 +1,6 @@
 package kr.ac.kaist.testonpr.controller;
 
+import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.data.*;
@@ -10,6 +11,7 @@ import org.jacoco.core.runtime.RuntimeData;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +24,19 @@ import java.util.*;
 @RestController
 public class DevController {
 
+  @Autowired
+  CoverageLogicBean coverageLogicBean;
+
   //Use only for development (e.g. call w/e you are currently working on)
   @RequestMapping("/dev")
   public String devController() throws Exception {
-    Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
+    //Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
+    //coverageLogicBean.runTests();
+    coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", "Class0");
     return "OK";
   }
 
+  @Deprecated
   public void jacocoJavaAPI() throws Exception {
     final String targetName ="Class0";
     // For instrumentation and runtime we need a IRuntime instance
@@ -74,6 +82,7 @@ public class DevController {
     original.close();
   }
 
+  @Deprecated
   public static Class getTargetClass(String name) {
     final File file = new File("repositoryToTest/code");
 
@@ -90,6 +99,7 @@ public class DevController {
     return null;
   }
 
+  @Deprecated
   public static String runJUnitSuite() {
     final File file = new File("repositoryToTest/code");
 

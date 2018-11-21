@@ -32,7 +32,16 @@ While working locally use Serveo to tunnel the webhook requests to your localhos
 ssh -R cs454:80:localhost:8080 serveo.ne`
 ```
 
-### Google Cloud Build Integration
+### Development
 ```
-WIP
+./gradlew bootRun
+localhost:8080/{apiEndpoint}
+//while developing just use /dev in DevController
+localhost:8080/clone
+//download test repository
+//go into test repository and run build script for .class files
+coverageLogicBean.runTests
+//this generates jacoco.exec
+//get line coverage with:
+coverageLogicBean.getProbeActivation(pathToJacoco, classUnderTest)
 ```
