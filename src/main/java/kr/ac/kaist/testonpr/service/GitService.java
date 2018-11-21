@@ -46,7 +46,7 @@ public class GitService {
       GHRepository repo = getRepository(TEST_REPOSITORY);
 
       return repo.getPullRequests(GHIssueState.ALL).stream()
-              .map(pr -> pr.getTitle())
+              .map(GHPullRequest::getTitle)
               .collect(Collectors.toList());
     } catch(IOException e) {
       List<String> error = new ArrayList<>();
