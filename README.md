@@ -29,7 +29,7 @@ docker run -p 8080:8080 testonpr-manual
 ### Webhook
 While working locally use Serveo to tunnel the webhook requests to your localhost
 ```
-ssh -R cs454:80:localhost:8080 serveo.ne`
+ssh -R cs454:80:localhost:8080 serveo.ne
 ```
 
 ### Development
