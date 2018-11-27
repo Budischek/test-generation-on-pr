@@ -6,29 +6,6 @@ import org.jacoco.core.data.*;
 import org.springframework.stereotype.Component;
 import java.io.*;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-
-
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.jacoco.core.analysis.Analyzer;
-import org.jacoco.core.analysis.CoverageBuilder;
-import org.jacoco.core.analysis.IClassCoverage;
-import org.jacoco.core.analysis.ICounter;
-import org.jacoco.core.data.ExecutionDataStore;
-import org.jacoco.core.data.SessionInfoStore;
-import org.jacoco.core.instr.Instrumenter;
-import org.jacoco.core.runtime.IRuntime;
-import org.jacoco.core.runtime.LoggerRuntime;
-import org.jacoco.core.runtime.RuntimeData;
-
-
-
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -86,29 +63,6 @@ public class CoverageLogicBean {
 
         return result.result;
     }
-
-    public static void writeJson(boolean[] probes) throws Exception {
-        JSONObject sampleObject = new JSONObject();
-
-        JSONArray arr = new JSONArray();
-        for(boolean probe:probes) {
-          arr.add(probe);
-        }
-
-        sampleObject.put("probes", arr);
-
-        try {
-          FileWriter file = new FileWriter("repositoryToTest/result.json");
-          file.write(sampleObject.toJSONString());
-          file.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Probe result stored at: repositoryToTest/result.json");
-    }
-
-
 
     public int getHitCount(final boolean[] data) {
         int count = 0;
@@ -218,7 +172,7 @@ public class CoverageLogicBean {
   	 * @throws Exception
   	 *             in case of errors
   	 */
-  	public void execute() throws Exception {
+  	public void mapProbes() throws Exception {
   		final String targetName = TestTarget.class.getName(); // TODO has to change to Class0
 
   		// For instrumentation and runtime we need a IRuntime instance
@@ -301,16 +255,4 @@ public class CoverageLogicBean {
   		}
   		return "";
   	}
-
-  	/**
-  	 * Entry point to run this examples as a Java application.
-  	 *
-  	 * @param args
-  	 *            list of program arguments
-  	 * @throws Exception
-  	 *             in case of errors
-  	 */
-  	// public static void main(final String[] args) throws Exception {
-  	// 	new CoreTutorial(System.out).execute();
-  	// }
 }
