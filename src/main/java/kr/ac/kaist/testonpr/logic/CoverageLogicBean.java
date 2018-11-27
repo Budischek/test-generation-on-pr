@@ -219,7 +219,7 @@ public class CoverageLogicBean {
   	 *             in case of errors
   	 */
   	public void execute() throws Exception {
-  		final String targetName = TestTarget.class.getName();
+  		final String targetName = TestTarget.class.getName(); // TODO has to change to Class0
 
   		// For instrumentation and runtime we need a IRuntime instance
   		// to collect execution data:
