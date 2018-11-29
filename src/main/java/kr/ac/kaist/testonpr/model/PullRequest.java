@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PullRequest {
@@ -59,11 +60,11 @@ public class PullRequest {
 				}
 			}
 			classes.put(className, changes);
-			System.out.println(changes.removed);
 		}
-		LineChanges lc = (LineChanges) classes.get("Class0");
-
 	}
+	LineChanges lc = (LineChanges) classes.get("Class0");
+	ArrayList<Integer> l = lc.getAddedList();
+	System.out.println(l);
 	inReader.close();
   }
   
