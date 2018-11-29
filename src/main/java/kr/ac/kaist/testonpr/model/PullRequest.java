@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class PullRequest {
   public int number;
@@ -34,21 +35,36 @@ public class PullRequest {
 	System.out.println("\nSending 'GET' request to URL : " + url);
 	System.out.println("Response Code : " + responseCode);
 
-	
-	
+
 	
 	BufferedReader inReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	
 	String inLine;
+	HashMap<String, LineChanges> classes = new HashMap<String, LineChanges>();
 	
-	int lineNumber = 0;
 	while ((inLine = inReader.readLine()) != null) {
 		
-		
-		
+		if(inLine.contains("public class")) {
+			String className = inLine.split(" ")[3];
+			//System.out.println(className);
+			LineChanges changes = new LineChanges(className);
+			int lineNumber = 1;
+			while (!(inLine = inReader.readLine()).startsWith("diff")) {
+				if(inLine.startsWith("+")) changes.newLine(lineNumber);
+				else if(inLine.startsWith("-")) { 
+					changes.removedLine(lineNumber);
+					lineNumber++;
+				} else{
+					lineNumber++;
+				}
+			}
+			classes.put(className, changes);
+			System.out.println(changes.removed);
+		}
+		LineChanges lc = (LineChanges) classes.get("Class0");
+
 	}
 	inReader.close();
-	
   }
   
 }
