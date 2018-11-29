@@ -49,7 +49,7 @@ public class CoverageLogicBean {
         return result.result;
     }
 
-    private int getHitCount(final boolean[] data) {
+    public int getHitCount(final boolean[] data) {
         int count = 0;
         for (final boolean hit : data) {
             if (hit) {
