@@ -31,8 +31,15 @@ public class DevController {
   @RequestMapping("/dev")
   public String devController() throws Exception {
     //Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
-    //coverageLogicBean.runTests();
-    coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", "Class0");
+
+    coverageLogicBean.runTests(); // run the TestSuite. Generates jacoco.exec
+
+    Thread.sleep(2000);
+    boolean[] result = coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", "Class0");
+
+    System.out.printf("Probes generated: %d\n", result.length);
+    System.out.printf("Number of hits: %d\n", coverageLogicBean.getHitCount(result));
+
     return "OK";
   }
 

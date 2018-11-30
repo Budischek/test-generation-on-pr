@@ -18,8 +18,8 @@ public class CoverageLogicBean {
     public void runTests() throws IOException {
         Process proc = Runtime.getRuntime().exec("java " +
             "-javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  " +
-            "-cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  " +
-            "org.junit.runner.JUnitCore TestSuite\n");
+            "-cp repositoryToTest/code:repositoryToTest/libs/junit-4.8.2.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  " +
+            "SingleJUnitTestRunner org.junit.runner.JUnitCore TestSuite#testCase0\n");
     }
 
     public boolean[] getProbeActivation(String pathToExec, String classUnderTest) throws FileNotFoundException {
@@ -49,7 +49,7 @@ public class CoverageLogicBean {
         return result.result;
     }
 
-    private int getHitCount(final boolean[] data) {
+    public int getHitCount(final boolean[] data) {
         int count = 0;
         for (final boolean hit : data) {
             if (hit) {
