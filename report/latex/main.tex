@@ -138,7 +138,7 @@
 % --------------------------------------------------------
 
 \HRule \\[0.4cm]
-{ \huge \bfseries Title of project..}\\[0.03cm] % Title of the document
+{ \huge \bfseries Continuous Test Generation on Pull Request}\\[0.03cm] % Title of the document
 \HRule \\[1.5cm]
  
 % --------------------------------------------------------
@@ -148,7 +148,7 @@
 {\Large \underline{Group 5} \\
 Mathias Sixten \\
 Yixuan  \\
-David Budischek  \\
+David Budischek, 201863  \\
 Gaspard \\
 Gustav Janér, 20186416 \\
 } % Authors of the document
@@ -173,15 +173,14 @@ Gustav Janér, 20186416 \\
 % ********************************************************
 
 \section*{Abstract}
-blabla
-
-\newpage
-
-\tableofcontents % Prints the table of contents
-\newpage
+-
 
 \section{Introduction}
-blabla example citation from references.bib\cite{google}.
+Over the past decades software release cycles have shortened repeatedly. Two decades ago it was common place to release software and then maybe follow up with a patch (in the form of a physical hard disk) a few years down the line. From that we went to pushing out monthly, or even weekly, security updates. In recent years though, it became common place to not bundle releases anymore. Instead every single feature/bug/typo fix is published instantaneously and pushed to every user. With Continuous Delivery come a plethora of challenges. One of which is testing. In a traditional release cycle there is enough time to hand over the release candidate to QA and give them time to verify functionality. But this won't do nowadays. Instead we rely on automated tests to quickly verify functionality. In practice, tests can never guarantee a bugfree product, instead they can only try and cover as much of the code as possible. 
+
+In addition to manually writing tests there are advanced unit test generation tools available (such as EvoSuite or Pex). While these tools require no manual input, they do require a lot of computation time. In their 2014 paper \cite{campos_continuous_2014} the authors of EvoSuite propose a solution to this issue, Continuous Test Generation. Instead of a greenfield test generation for each new iteration, they leverage previous results to speed up the test generation process. In their research this is done by smartly allocating resources to the classes that changed or are not yet fully covered.
+
+They also hint at a different solution, smartly seeding the next test generation with test cases from previous iterations.
 
 \subsection{subsec}
 
