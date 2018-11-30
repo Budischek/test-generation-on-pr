@@ -1,0 +1,17 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'main.blg'
+[55] biber:287> INFO - === Sat Dec  1, 2018, 02:44:17
+[159] Biber.pm:348> INFO - Reading 'main.bcf'
+[338] Biber.pm:742> INFO - Found 1 citekeys in bib section 0
+[344] Biber.pm:3151> INFO - Processing section 0
+[394] Biber.pm:3308> INFO - Looking for bibtex format file 'references.bib' for section 0
+[396] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[398] bibtex.pm:974> INFO - Found BibTeX data source 'references.bib'
+[399] Utils.pm:147> WARN - I didn't find a database entry for 'campos_continuous_2014' (section 0)
+[413] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[413] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[413] Biber.pm:3028> INFO - Sorting list 'none/global' of type 'entry' with scheme 'none' and locale 'en-US'
+[413] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[414] bbl.pm:519> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[417] bbl.pm:615> INFO - Output to main.bbl
+[418] Biber.pm:109> INFO - WARNINGS: 1
