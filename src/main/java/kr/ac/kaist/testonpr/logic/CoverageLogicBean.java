@@ -14,12 +14,12 @@ public class CoverageLogicBean {
         boolean[] result = null;
     }
 
-    //TODO: run individual tests instead of whole suite
-    public void runTests() throws IOException {
+    // Runs a single test case and produces the jacoco.exec file
+    public void runTests(String tc) throws IOException {
         Process proc = Runtime.getRuntime().exec("java " +
             "-javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  " +
             "-cp repositoryToTest/code:repositoryToTest/libs/junit-4.8.2.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  " +
-            "SingleJUnitTestRunner org.junit.runner.JUnitCore TestSuite#testCase0\n");
+            "SingleJUnitTestRunner org.junit.runner.JUnitCore TestSuite#testCase" + tc + "\n");
     }
 
     public boolean[] getProbeActivation(String pathToExec, String classUnderTest) throws FileNotFoundException {
