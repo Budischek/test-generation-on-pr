@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public class PullRequest {
   public int number;
+  HashMap<String, LineChanges> classes;
   
   public PullRequest(int number) {
 	  this.number = number;
@@ -40,32 +41,43 @@ public class PullRequest {
 	
 	BufferedReader inReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	
-	String inLine;
-	HashMap<String, LineChanges> classes = new HashMap<String, LineChanges>();
+	readLineChanges(inReader);
 	
-	while ((inLine = inReader.readLine()) != null) {
+  }
+  
+  public void readLineChanges(BufferedReader inReader) throws IOException {
+	  
+	  
+	  	String inLine;
+	  	classes = new HashMap<String, LineChanges>();
 		
-		if(inLine.contains("public class")) {
-			String className = inLine.split(" ")[3];
-			//System.out.println(className);
-			LineChanges changes = new LineChanges(className);
-			int lineNumber = 1;
-			while (!(inLine = inReader.readLine()).startsWith("diff")) {
-				if(inLine.startsWith("+")) changes.newLine(lineNumber);
-				else if(inLine.startsWith("-")) { 
-					changes.removedLine(lineNumber);
-					lineNumber++;
-				} else{
-					lineNumber++;
+		while ((inLine = inReader.readLine()) != null) {
+			
+			if(inLine.contains("public class")) {
+				String className = inLine.split(" ")[3];
+				//System.out.println(className);
+				LineChanges changes = new LineChanges(className);
+				int lineNumber = 1;
+				while (!(inLine = inReader.readLine()).startsWith("diff")) {
+					if(inLine.startsWith("+")) changes.newLine(lineNumber);
+					else if(inLine.startsWith("-")) { 
+						changes.removedLine(lineNumber);
+						lineNumber++;
+					} else{
+						lineNumber++;
+					}
 				}
+				classes.put(className, changes);
 			}
-			classes.put(className, changes);
 		}
-	}
-	LineChanges lc = (LineChanges) classes.get("Class0");
-	ArrayList<Integer> l = lc.getAddedList();
-	System.out.println(l);
-	inReader.close();
+		inReader.close();
+	  
+  }
+  
+  public HashMap<String, LineChanges> getChanges() {
+	  
+	  
+	  return classes;
   }
   
 }
