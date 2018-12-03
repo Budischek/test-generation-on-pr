@@ -40,7 +40,7 @@ public class GitHubServiceTests {
 
   @Test
   public void testGitHubAPI() throws IOException{
-    GHRepository repo = gitService.getRepositoryPath(TEST_REPOSITORY);
+    GHRepository repo = gitService.getRepository(TEST_REPOSITORY);
 
     Assert.assertNotNull(repo);
   }
