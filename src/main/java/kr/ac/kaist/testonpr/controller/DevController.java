@@ -255,7 +255,7 @@ public class DevController {
     }
   } 
 
-  public static void evosuiteGenerateTests(String packageName, String classname, String classpath){
+  public static void evosuiteGenerateTestsForClass(String packageName, String classname, String classpath){
     try{
     //%EVOSUITE% -class "packageName"."classname" -projectCP "classpath to the package"  
 
@@ -281,11 +281,69 @@ public class DevController {
   }
 
 
-  public static void evosuiteRunTests(){
+  public static void evosuiteRunTests(String classpath){
     try{
-    //set CLASSPATH=target/classes;evosuite-standalone-runtime-1.0.6.jar;evosuite-tests;target/dependency/junit-4.12.jar;target/dependency/hamcrest-core-1.3.jar
-    //javac evosuite-tests/tutorial/*.java
-    //java org.junit.runner.JUnitCore tutorial.Stack_ESTest
+
+      //set the CLASSPATH environment variable, including :
+      //"classpath": This is the root directory which we need for the CUTs
+      // evosuite-standalone-runtime-1.0.6.jar: This is the EvoSuite runtime library.
+      // evosuite-tests: This is the root directory where we put the test class files
+      // junit-4.12.jar and hamcrest-core-1.3.jar: We need JUnit to execute JUnit tests.
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("set CLASSPATH="+classpath+";evosuite-standalone-runtime-1.0.6.jar;evosuite-tests;junit-4.12.jar;hamcrest-core-1.3.jar ");
+      
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+    
+    
+      //compile the tests in place
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("javac evosuite-tests/tutorial/*.java");
+      
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+
+
+      // //run the tests
+      // Runtime rt = Runtime.getRuntime();
+      // Process proc = rt.exec("java org.junit.runner.JUnitCore tutorial.*_ESTest");
+      
+      // // java org.junit.runner.JUnitCore tutorial.Class_ESTest
+      
+
+
+      // // Read command standard output
+      // String s;
+      // System.out.println("Standard output: ");
+      // while ((s = stdInput.readLine()) != null) {
+      //   System.out.println(s);
+      // }
+
+      // // Read command errors
+      // System.out.println("Standard error: ");
+      // while ((s = stdError.readLine()) != null) {
+      //  System.out.println(s);
+      // }
 
 
       
