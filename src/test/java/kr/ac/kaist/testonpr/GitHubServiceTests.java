@@ -1,6 +1,6 @@
 package kr.ac.kaist.testonpr;
 
-import kr.ac.kaist.testonpr.service.GitService;
+import kr.ac.kaist.testonpr.service.GitHubService;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,10 +16,10 @@ import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GitServiceTests {
+public class GitHubServiceTests {
 
   @Autowired
-  GitService gitService;
+  GitHubService gitService;
 
   private String TEST_REPOSITORY = "budischek/CS454";
 
