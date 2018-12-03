@@ -280,6 +280,57 @@ public class DevController {
     }
   }
 
+  public static void evosuiteGenerateTestsWithClasspath(String classpath){
+    try{
+      // To invoke EvoSuite on all the classes in a classpath entry
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("%EVOSUITE% -target "+classpath);
+      
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+
+    }catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  }
+
+
+
+  public static void evosuiteGenerateTests(String packageName){
+    try{
+      //To test all classes in a specific package
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("%EVOSUITE% -prefix "+packageName);
+      
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+
+    }catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  }
+
+
 
   public static void evosuiteRunTests(String packageName, String classname, String classpath){
     try{
@@ -328,8 +379,6 @@ public class DevController {
       Runtime rt = Runtime.getRuntime();
       Process proc = rt.exec("java org.junit.runner.JUnitCore "+packageName+"."+classname+"_ESTest");
       
-
-
       // Read command standard output
       String s;
       System.out.println("Standard output: ");
