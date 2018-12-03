@@ -24,9 +24,9 @@ public class GitController {
   @RequestMapping("/clone")
   public String cloneRepository() {
     String repoUrl = "https://github.com/budischek/CS454.git";
-    String path = "repositoryToTest";
 
-    gitService.cloneRepository(repoUrl, path);
+
+    gitService.getRepositoryPath(repoUrl);
 
     return "success";
   }
@@ -49,7 +49,7 @@ public class GitController {
     Integer prId = (Integer)pr.get("number");
 
     System.out.println("Commenting on PullRequest #" + prId);
-    gitService.commentOnPr(prId, "Test");
+    gitService.reportResults(prId, "Test");
     return "OK";
   }
 }
