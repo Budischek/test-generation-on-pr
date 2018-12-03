@@ -281,7 +281,7 @@ public class DevController {
   }
 
 
-  public static void evosuiteRunTests(String classpath){
+  public static void evosuiteRunTests(String packageName, String classname, String classpath){
     try{
 
       //set the CLASSPATH environment variable, including :
@@ -324,26 +324,24 @@ public class DevController {
       }
 
 
-      // //run the tests
-      // Runtime rt = Runtime.getRuntime();
-      // Process proc = rt.exec("java org.junit.runner.JUnitCore tutorial.*_ESTest");
-      
-      // // java org.junit.runner.JUnitCore tutorial.Class_ESTest
+      //run the tests
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("java org.junit.runner.JUnitCore "+packageName+"."+classname+"_ESTest");
       
 
 
-      // // Read command standard output
-      // String s;
-      // System.out.println("Standard output: ");
-      // while ((s = stdInput.readLine()) != null) {
-      //   System.out.println(s);
-      // }
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
 
-      // // Read command errors
-      // System.out.println("Standard error: ");
-      // while ((s = stdError.readLine()) != null) {
-      //  System.out.println(s);
-      // }
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
 
 
       
