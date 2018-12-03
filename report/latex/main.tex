@@ -1,0 +1,215 @@
+\documentclass[12pt, a4paper]{article}
+
+% ********************************************************
+%				        PREAMBLE
+% ********************************************************
+
+\newcommand{\dd}[1]{\mathrm{d}#1}             % For integral design
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+% --------------------------------------------------------
+%	             Set page Size and Margins
+% --------------------------------------------------------
+
+\usepackage[a4paper,top=3cm,bottom=3cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% --------------------------------------------------------
+%	           Language and Font Encodings
+% --------------------------------------------------------
+
+\usepackage[T1]{fontenc}     % Includes more chars
+\usepackage[utf8]{inputenc}  % Includes more chars
+\usepackage{kotex}           % For Korean/Hangul
+%\usepackage[swedish]{babel} % For åäö
+
+%--------------------------------------------------------
+%	                  Bibliography
+%--------------------------------------------------------
+
+\usepackage[style=ieee]{biblatex} % Change style of Bibliography, currently IEEE
+\addbibresource{references.bib}   % Name of .bib file
+
+% --------------------------------------------------------
+%		  			 Useful Packages
+% --------------------------------------------------------
+
+\usepackage{graphicx}	   % To import images
+\usepackage{float}         % Stop figures from floating
+\usepackage[]{algorithm2e} % To include algorithms
+\usepackage{mathtools}	   % To use mathematical expressions, includes {amsmath}
+\usepackage{amsmath}
+\usepackage{array,tabularx}% To have arrays. Used for equation variable def
+\usepackage{parskip}       % Return in code, render on preview too
+\usepackage{verbatim}      % To do \beginEnd{comment}
+\usepackage{xcolor}        % To include xcolor
+%\usepackage{pdfpages} 	   % usage: \includepdf{file.pdf}
+
+% --------------------------------------------------------
+%	           	        Hyper Links
+% --------------------------------------------------------
+
+\usepackage{url}		          % For links
+\usepackage[hidelinks]{hyperref}  % Clickable links
+\hypersetup{ % ^[hidelinks] to remove ugly boxes
+	colorlinks = true,            % Coloured links instead of ugly boxes
+  	urlcolor   = {blue!50!black}, % Colour for external hyperlinks
+  	linkcolor  = {blue!50!black}, % Colour of internal links
+  	citecolor  = {red!50!black}   % Colour of citations
+}
+
+% --------------------------------------------------------
+%	               Custom Environments
+% --------------------------------------------------------
+
+\newenvironment{conditions} % for equation variable definition
+  {\par\vspace{0pt}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{}>{${}}c<{{}$}@{} >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
+
+% to have subsections given in letters: 1.a, 1.b etc..
+% \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+% --------------------------------------------------------
+%	               Setup Code Environment
+% --------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\tiny,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% --------------------------------------------------------
+%	                 Title and Author
+% --------------------------------------------------------
+
+\title{Research Paper Template} % Title of the document
+\author{Gustav Janér}  % Author. Do not change
+% \maketitle % Prints title and author
+
+% ********************************************************
+%				      DOCUMENT BEGIN
+% ********************************************************
+
+\begin{document}
+\begin{titlepage} 
+\center 	     % Center everything on the page
+
+% --------------------------------------------------------
+%	                 Heading Sections
+% --------------------------------------------------------
+
+\textsc{\LARGE Artificial Intelligence Based Software Engineering} \\[1cm]
+% Major heading such as course name
+
+\textsc{\Large Project Report}\\[0.5cm]
+% Minor heading such as course title
+
+% --------------------------------------------------------
+%	                   Title Section
+% --------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Title of project..}\\[0.03cm] % Title of the document
+\HRule \\[1.5cm]
+ 
+% --------------------------------------------------------
+%	               Date and Names Section
+% --------------------------------------------------------
+
+{\Large \underline{Group 5} \\
+Mathias Sixten \\
+Yixuan  \\
+David Budischek  \\
+Gaspard \\
+Gustav Janér, 20186416 \\
+} % Authors of the document
+
+\vspace{0.3cm}
+\today
+\vspace{4cm}
+
+% --------------------------------------------------------
+%	                   Logo Section
+% --------------------------------------------------------
+
+\includegraphics[scale=0.15]{KAIST.png}\\[1cm]
+
+% --------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+\end{titlepage}
+
+% ********************************************************
+%		  		          MAIN
+% ********************************************************
+
+\section*{Abstract}
+blabla
+
+\newpage
+
+\tableofcontents % Prints the table of contents
+\newpage
+
+\section{Introduction}
+blabla example citation from references.bib\cite{google}.
+
+\subsection{subsec}
+
+
+\section{Body}
+
+
+\section{Results}
+
+
+\section{Conclusion}
+
+
+% --------------------------------------------------------
+%	                   Bibliography
+% --------------------------------------------------------
+
+\newpage
+\addcontentsline{toc}{section}{References} % Renders References appear in the Table of Content
+\printbibliography % Prints the actual Bibliography
+
+% --------------------------------------------------------
+%	                     Appendix
+% --------------------------------------------------------
+
+% \newpage
+% \appendix
+
+%\section{Appendix} \label{sec:appx}
+
+\end{document}

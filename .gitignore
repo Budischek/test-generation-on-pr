@@ -27,3 +27,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Mac specific ###
+.DS_Store
