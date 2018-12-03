@@ -180,10 +180,7 @@ Over the past decades software release cycles have shortened repeatedly. Two dec
 
 In addition to manually writing tests there are advanced unit test generation tools available (such as EvoSuite or Pex). While these tools require no manual input, they do require a lot of computation time. In their 2014 paper \cite{campos_continuous_2014} the authors of EvoSuite propose a solution to this issue, Continuous Test Generation. Instead of a greenfield test generation for each new iteration, they leverage previous results to speed up the test generation process. In their research this is done by smartly allocating resources to the classes that changed or are not yet fully covered.
 
-They also hint at a different solution, smartly seeding the next test generation with test cases from previous iterations.
-
-\subsection{subsec}
-
+When it comes to integrating CTG in the CI/CD workflow commonly used in modern Software projects there is little literature available. In a case study done as part of the SSBSE'15 challenge \cite{barros_continuous_2015} we can clearly see that CTG performs well enough to warrant implementation. Due to this we implemented an out of the box, platform agnostic tool to easily add CTG to an existing project without interfering with the infrastructure that has previously been set up.
 
 \section{Body}
 
