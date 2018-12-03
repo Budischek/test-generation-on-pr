@@ -21,6 +21,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
 
+
+
 @RestController
 public class DevController {
 
@@ -231,4 +233,67 @@ public class DevController {
 
     return ret;
   }
+
+  public static void evosuiteSetUpCommand(){
+    try {
+      // Run Windows command
+      Runtime rt = Runtime.getRuntime();
+      Process proc1 = rt.exec("cd repositoryToTest");
+     
+      Process proc = rt.exec(" set EVOSUITE=java -jar \"%CD%\"\\evosuite-1.0.6.jar ");
+			// Process proc = rt.exec(" export EVOSUITE=\"java -jar $(pwd)/evosuite-1.0.6.jar\" ");
+      
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+      
+    } catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  } 
+
+  public static void evosuiteGenerateTests(String packageName, String classname, String classpath){
+    try{
+    //%EVOSUITE% -class "packageName"."classname" -projectCP "classpath to the package"  
+
+      Runtime rt = Runtime.getRuntime();
+      Process proc = rt.exec("%EVOSUITE% -class "+packageName+"."+classname+" -projectCP "+classpath);
+      
+      // Read command standard output
+      String s;
+      System.out.println("Standard output: ");
+      while ((s = stdInput.readLine()) != null) {
+        System.out.println(s);
+      }
+
+      // Read command errors
+      System.out.println("Standard error: ");
+      while ((s = stdError.readLine()) != null) {
+       System.out.println(s);
+      }
+
+    }catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  }
+
+
+  public static void evosuiteRunTests(){
+    try{
+    //set CLASSPATH=target/classes;evosuite-standalone-runtime-1.0.6.jar;evosuite-tests;target/dependency/junit-4.12.jar;target/dependency/hamcrest-core-1.3.jar
+    //javac evosuite-tests/tutorial/*.java
+    //java org.junit.runner.JUnitCore tutorial.Stack_ESTest
+
+
+      
+
+    }catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  }
+
+
 }
