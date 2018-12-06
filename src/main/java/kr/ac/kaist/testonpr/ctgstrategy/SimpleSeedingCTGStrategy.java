@@ -40,6 +40,8 @@ public class SimpleSeedingCTGStrategy extends AbstractCTGStrategy {
       System.out.println("Tests Done");
 
       compareProbeActivations(previousProbeResult, currentProbeResult);
+
+      storeMetadata(identifier, currentProbeResult);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -159,6 +161,11 @@ public class SimpleSeedingCTGStrategy extends AbstractCTGStrategy {
     currentProbeResult.activation[2][5] = !currentProbeResult.activation[2][5];
 
     String serialized = currentProbeResult.serialize();
+    persistenceController.storeMetadata("lastProbeActivation", serialized);
+  }
+
+  private void storeMetadata(String identifier, ProbeStatistic probeStatistic) {
+    String serialized = probeStatistic.serialize();
     persistenceController.storeMetadata("lastProbeActivation", serialized);
   }
 }
