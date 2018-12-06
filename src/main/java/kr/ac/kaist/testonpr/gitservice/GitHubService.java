@@ -1,4 +1,4 @@
-package kr.ac.kaist.testonpr.service;
+package kr.ac.kaist.testonpr.gitservice;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class GitHubService extends GitService{
+public class GitHubService extends AbstractGitService {
 
   @Value("${github-oauth}")
   private String token;

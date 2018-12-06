@@ -2,7 +2,7 @@ package kr.ac.kaist.testonpr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
-import kr.ac.kaist.testonpr.service.GitService;
+import kr.ac.kaist.testonpr.gitservice.AbstractGitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class GitController {
 
   @Autowired
-  GitService gitService;
+  AbstractGitService gitService;
 
   @Autowired
   CoverageLogicBean coverageLogicBean;

@@ -1,6 +1,6 @@
 package kr.ac.kaist.testonpr;
 
-import kr.ac.kaist.testonpr.service.GitHubService;
+import kr.ac.kaist.testonpr.gitservice.AbstractGitService;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class GitHubServiceTests {
 
   @Autowired
-  GitHubService gitService;
+  AbstractGitService gitService;
 
   private String TEST_REPOSITORY = "budischek/CS454";
 
