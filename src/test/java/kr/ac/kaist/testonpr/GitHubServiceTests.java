@@ -1,6 +1,6 @@
 package kr.ac.kaist.testonpr;
 
-import kr.ac.kaist.testonpr.gitservice.AbstractGitService;
+import kr.ac.kaist.testonpr.gitservice.GitHubService;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class GitHubServiceTests {
 
   @Autowired
-  AbstractGitService gitService;
+  GitHubService gitService;
 
   private String TEST_REPOSITORY = "budischek/CS454";
 
@@ -31,7 +31,7 @@ public class GitHubServiceTests {
     String repoUrl = "https://github.com/trein/dev-best-practices";
     String path = folder.newFolder("tmp").getPath();
 
-    gitService.cloneRepository(repoUrl, path);
+    gitService.getRepositoryPath(repoUrl, path);
 
     File file = new File(path + "README.md");
 
