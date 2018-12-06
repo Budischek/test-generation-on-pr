@@ -1,7 +1,6 @@
 package kr.ac.kaist.testonpr.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
 import kr.ac.kaist.testonpr.gitservice.AbstractGitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,9 +17,6 @@ public class GitController {
   @Autowired
   AbstractGitService gitService;
 
-  @Autowired
-  CoverageLogicBean coverageLogicBean;
-
   @RequestMapping("/clone")
   public String cloneRepository() {
     String repoUrl = "https://github.com/budischek/CS454.git";
@@ -34,11 +30,6 @@ public class GitController {
   @RequestMapping("/prs")
   public List<String> getPullRequests() {
     return gitService.getPullRequests();
-  }
-
-  @RequestMapping("/addCoverageCheck")
-  public String checkCoverage() throws IOException {
-    return coverageLogicBean.addCheckpoint("repositoryToTest/code/Program0.java", 4);
   }
 
   @RequestMapping("prWebhook")

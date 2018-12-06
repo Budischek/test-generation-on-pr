@@ -1,9 +1,10 @@
 package kr.ac.kaist.testonpr.controller;
 
-import kr.ac.kaist.testonpr.logic.CoverageLogicBean;
+import kr.ac.kaist.testonpr.ctgstrategy.AbstractCTGStrategy;
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
-import org.jacoco.core.data.*;
+import org.jacoco.core.data.ExecutionDataStore;
+import org.jacoco.core.data.SessionInfoStore;
 import org.jacoco.core.instr.Instrumenter;
 import org.jacoco.core.runtime.IRuntime;
 import org.jacoco.core.runtime.LoggerRuntime;
@@ -16,33 +17,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.tools.*;
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class DevController {
 
   @Autowired
-  CoverageLogicBean coverageLogicBean;
+  AbstractCTGStrategy ctgStrategy;
 
   //Use only for development (e.g. call w/e you are currently working on)
   @RequestMapping("/dev")
   public String devController() throws Exception {
     //Process proc = Runtime.getRuntime().exec("java -javaagent:src/main/resources/static/jacocoagent.jar=destfile=repositoryToTest/jacoco.exec  -cp repositoryToTest/code:repositoryToTest/libs/junit-4.12.jar:repositoryToTest/libs/hamcrest-core-1.3.jar  org.junit.runner.JUnitCore TestSuite\n");
 
-    coverageLogicBean.runTests("0"); // run the TestSuite. Generates jacoco.exec
+    /*coverageLogicBean.runTests("0"); // run the TestSuite. Generates jacoco.exec
 
     Thread.sleep(2000);
     boolean[] result = coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", "Class0");
 
     System.out.printf("Probes generated: %d\n", result.length);
     System.out.printf("Number of hits: %d\n", coverageLogicBean.getHitCount(result));
+    */
 
+    ctgStrategy.newPRTrigger("testTrigger");
     return "OK";
   }
 
+  /*
   int amountTC     = 16;
   int amountProbes = 101;
   boolean[][] previousProbeResult = new boolean[amountTC][amountProbes];
@@ -109,7 +117,7 @@ public class DevController {
 
     return "OK";
   }
-
+*/
   @Deprecated
   public void jacocoJavaAPI() throws Exception {
     final String targetName ="Class0";

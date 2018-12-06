@@ -38,9 +38,7 @@ public class GitHubService extends AbstractGitService {
 
   public void cloneRepository(String repoUrl, String path) {
     try {
-      System.out.println("Deleting "+ path);
       FileUtils.deleteDirectory(new File(path));
-      System.out.println("Cloning "+repoUrl+" into "+ path);
       Git.cloneRepository()
               .setURI(repoUrl)
               .setDirectory(new File(path))
@@ -49,7 +47,6 @@ public class GitHubService extends AbstractGitService {
                               "cs454testonpr")
               )
               .call();
-      System.out.println("Completed Cloning");
     } catch (Exception e) {
       System.out.println("Exception occurred while cloning repo");
       e.printStackTrace();
