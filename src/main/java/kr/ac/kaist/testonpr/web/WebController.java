@@ -1,6 +1,8 @@
-package kr.ac.kaist.testonpr.controller;
+package kr.ac.kaist.testonpr.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.ac.kaist.testonpr.ctgstrategy.AbstractCTGStrategy;
+import kr.ac.kaist.testonpr.gitservice.AbstractGitService;
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.data.ExecutionDataStore;
@@ -13,24 +15,26 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.tools.*;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @RestController
-public class DevController {
+public class WebController {
 
   @Autowired
   AbstractCTGStrategy ctgStrategy;
+
+  @Autowired
+  AbstractGitService gitService;
 
   //Use only for development (e.g. call w/e you are currently working on)
   @RequestMapping("/dev")
@@ -50,7 +54,17 @@ public class DevController {
     return "OK";
   }
 
+  @RequestMapping("prWebhook")
+  public String prWebhook(@RequestBody String payload) throws IOException {
+    Map<?, ?> payloadMap = new ObjectMapper().readValue(payload, Map.class);
+    Map<?,?> pr = (Map<?, ?>) payloadMap.get("pull_request");
 
+    Integer prId = (Integer)pr.get("number");
+
+    System.out.println("Commenting on PullRequest #" + prId);
+    gitService.reportResults(prId, "Test");
+    return "OK";
+  }
 
   @Deprecated
   public void jacocoJavaAPI() throws Exception {
