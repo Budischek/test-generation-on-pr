@@ -50,74 +50,8 @@ public class DevController {
     return "OK";
   }
 
-  /*
-  int amountTC     = 16;
-  int amountProbes = 101;
-  boolean[][] previousProbeResult = new boolean[amountTC][amountProbes];
 
-  // Runs all test cases on the current CUTs and stores their probe result in 'previousProbeResult'
-  @RequestMapping("/probeSetup")
-  public String devController0() throws Exception {
-    boolean[] probeResult;
 
-    System.out.println("\nSetting up previous coverage..");
-
-    for(int i=0; i < amountTC; i++) {
-      coverageLogicBean.runTests(Integer.toString(i)); // Runs one Test Case. Generates jacoco.exec
-      Thread.sleep(1200); // wait for runtests() to finish
-
-      String cut = "Class0";
-      if(i >= amountTC/2)
-        cut = "Class1";
-
-      probeResult = coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", cut);
-
-      System.out.printf("\n%s - testCase%d\n", cut, i);
-      System.out.printf("Probes generated: %d\n", probeResult.length);
-      System.out.printf("Number  of  hits: %d\n", coverageLogicBean.getHitCount(probeResult));
-
-      for(int j=0; j < amountProbes; j++) {
-        previousProbeResult[i][j] = probeResult[j];
-      }
-    }
-
-    return "OK";
-  }
-
-  // Change/Pull request is made. Recompile CUTs and then run /probeCompare
-  // Runs all test cases on the changed CUTs. Compares the new probe results with 'previousProbeResult'
-  // to determine which test cases reaches modified code.
-  @RequestMapping("/probeCompare")
-  public String devController1() throws Exception {
-    boolean[] probeResult;
-
-    System.out.printf("\nRunning %d test cases and comparing with previous coverage:\n", amountTC);
-
-    for(int i=0; i < amountTC; i++) {
-      coverageLogicBean.runTests(Integer.toString(i)); // Runs one Test Case. Generates jacoco.exec
-      Thread.sleep(1200); // wait for runtests() to finish
-
-      String cut = "Class0";
-      if(i >= amountTC/2)
-        cut = "Class1";
-
-      probeResult = coverageLogicBean.getProbeActivation("repositoryToTest/jacoco.exec", cut);
-
-      System.out.printf("\n%s - testCase%d\n", cut, i);
-      System.out.printf("Probes generated: %d\n", probeResult.length);
-      System.out.printf("Number  of  hits: %d\n", coverageLogicBean.getHitCount(probeResult));
-
-      for(int j=0; j < amountProbes; j++) {
-        if(previousProbeResult[i][j] != probeResult[j]) {
-          System.out.printf("* testCase%d reaches modified code at previousProbeResult[%d][%d] *\n", i, i, j);
-          // Store the test case for seeding
-        }
-      }
-    }
-
-    return "OK";
-  }
-*/
   @Deprecated
   public void jacocoJavaAPI() throws Exception {
     final String targetName ="Class0";
