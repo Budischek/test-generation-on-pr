@@ -182,13 +182,36 @@ In addition to manually writing tests there are advanced unit test generation to
 
 When it comes to integrating CTG in the CI/CD workflow commonly used in modern Software projects there is little literature available. In a case study done as part of the SSBSE'15 challenge \cite{barros_continuous_2015} we can clearly see that CTG performs well enough to warrant implementation. Due to this we implemented an out of the box, platform agnostic tool to easily add CTG to an existing project without interfering with the infrastructure that has previously been set up.
 
-\section{Body}
+
+
+\section{GitHub repositories}
+\url{https://github.com/Budischek/test-generation-on-pr}
+
+\url{https://github.com/Budischek/CS454}
+
+
+
+\section{Seeding}
+Since most pull requests won’t modify and affect an entire program, many of the test cases of the previous test suite could still be used to test the new modified version of the program. Instead of creating a new test suite from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency.
+
+
+
+\subsection{Identify test cases for seeding}
+To create an efficient seeding for EvoSuite, useful test cases from the previous test suite have to be identified. Useful test cases for seeding are the test cases that reaches the modified parts of a pull request.
+
+To identify useful test cases to be used for seeding in our project, each test case was executed separately on the CUTs. JaCoCo was used to collect code coverage information of each executed test case. JaCoCo instruments the byte code of a CUT and inserts probes. For every probe that a test case reaches, the value of the probe is changed from false to true to indicate that the probe was activated and covered by the test case.
+
+The probe activation of every test case is stored and compared to the probe activation of the previous test case execution before the pull request. If the probe activation of a specific test case is differing from the previous execution, that test case reaches code that was modified by the pull request. A test case that is identified as reaching modified code, is stored and can later be used for seeding for the test case generation. 
+
+For a program $P$, test cases $TC$, and a modified version $P'$ of $P$: to identify useful test cases of $TC$ for seeding, all test cases $TC$ are executed on $P$ and then $P'$. Any test case $TC$ that has differing probe activation of $P$ and $P'$, reaches modified parts of $P'$.
+
 
 
 \section{Results}
 
 
 \section{Conclusion}
+
 
 
 % --------------------------------------------------------
