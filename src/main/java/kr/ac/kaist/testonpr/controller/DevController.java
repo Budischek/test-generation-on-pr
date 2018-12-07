@@ -339,7 +339,7 @@ public class DevController {
 
 
 
-  public static void evosuiteRunTests(String packageName, String classname, String classpath){
+  public static void evosuiteCompileTests(String classpath){
     try{
       Runtime rt = Runtime.getRuntime();
 
@@ -365,9 +365,13 @@ public class DevController {
       }
     
     
+
       //compile the tests in place
-      Process proc = rt.exec("javac evosuite-tests/tutorial/*.java");
-      
+      Process proc = rt.exec("javac evosuite-tests/*.java");
+      //if have errors here, classpath might be wrong, check it please.
+      //check the jar files classpath.
+
+
       // Read command standard output
       String s;
       System.out.println("Standard output: ");
@@ -381,10 +385,28 @@ public class DevController {
        System.out.println(s);
       }
 
+    
+
+    }catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
+  }
+
+
+
+
+
+  public static void evosuiteRunTests(String classname, String packageName){
+    try{
+      Runtime rt = Runtime.getRuntime();
 
       //run the tests
-      Process proc = rt.exec("java org.junit.runner.JUnitCore "+packageName+"."+classname+"_ESTest");
-      
+      if(packageName == null){
+        Process proc = rt.exec("java org.junit.runner.JUnitCore "+classname+"_ESTest");
+      }else{
+        Process proc = rt.exec("java org.junit.runner.JUnitCore "+packageName+"."+classname+"_ESTest");
+      }
+
       // Read command standard output
       String s;
       System.out.println("Standard output: ");
@@ -396,10 +418,7 @@ public class DevController {
       System.out.println("Standard error: ");
       while ((s = stdError.readLine()) != null) {
        System.out.println(s);
-      }
-
-
-      
+      }   
 
     }catch (Exception e) {
         e.printStackTrace(System.err);
