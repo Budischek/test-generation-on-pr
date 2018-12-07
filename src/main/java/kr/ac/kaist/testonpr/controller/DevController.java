@@ -99,7 +99,7 @@ public class DevController {
 
       System.out.printf("\n%s - testCase%d\n", cut, i);
       System.out.printf("Probes generated: %d\n", probeResult.length);
-      System.out.printf("Number  of  hits: %d\n", coverageLogicBean.getHitCount(probeResult));
+      System.out.printf("Number of hits: %d\n", coverageLogicBean.getHitCount(probeResult));
 
       for(int j=0; j < amountProbes; j++) {
         if(previousProbeResult[i][j] != probeResult[j]) {
@@ -238,11 +238,12 @@ public class DevController {
     try {
       // Run Windows command
       Runtime rt = Runtime.getRuntime();
-      Process proc1 = rt.exec("cd repositoryToTest");
-     
-      Process proc = rt.exec(" set EVOSUITE=java -jar \"%CD%\"\\evosuite-1.0.6.jar ");
+
+      //set EVOSUITE=java -jar "%CD%"\evosuite-1.0.6.jar
+      Process proc = rt.exec("set EVOSUITE=java -jar \"%CD%\"\\evosuite-1.0.6.jar ");
 			// Process proc = rt.exec(" export EVOSUITE=\"java -jar $(pwd)/evosuite-1.0.6.jar\" ");
       
+      Process proc1 = rt.exec("cd repositoryToTest");
 
       // Read command errors
       System.out.println("Standard error: ");
@@ -255,13 +256,19 @@ public class DevController {
     }
   } 
 
-  public static void evosuiteGenerateTestsForClass(String packageName, String classname, String classpath){
-    try{
-    //%EVOSUITE% -class "packageName"."classname" -projectCP "classpath to the package"  
 
+  public static void evosuiteGenerateTestsForClass(String classname, String classpath, String packageName){
+    try{
+      //compiler to class before generate the tests
+
+      //%EVOSUITE% -class "packageName"."classname" -projectCP "classpath to the package"  
       Runtime rt = Runtime.getRuntime();
-      Process proc = rt.exec("%EVOSUITE% -class "+packageName+"."+classname+" -projectCP "+classpath);
-      
+      if (packageName == null){
+        Process proc = rt.exec("%EVOSUITE% -class "+classname+" -projectCP "+classpath);
+      }else{
+        Process proc = rt.exec("%EVOSUITE% -class "+packageName+"."+classname+" -projectCP "+classpath);
+      }
+
       // Read command standard output
       String s;
       System.out.println("Standard output: ");
@@ -306,41 +313,42 @@ public class DevController {
 
 
 
-  public static void evosuiteGenerateTests(String packageName){
-    try{
-      //To test all classes in a specific package
-      Runtime rt = Runtime.getRuntime();
-      Process proc = rt.exec("%EVOSUITE% -prefix "+packageName);
+  // public static void evosuiteGenerateTests(String packageName){
+  //   try{
+  //     //To test all classes in a specific package
+  //     Runtime rt = Runtime.getRuntime();
+  //     Process proc = rt.exec("%EVOSUITE% -prefix "+packageName);
       
-      // Read command standard output
-      String s;
-      System.out.println("Standard output: ");
-      while ((s = stdInput.readLine()) != null) {
-        System.out.println(s);
-      }
+  //     // Read command standard output
+  //     String s;
+  //     System.out.println("Standard output: ");
+  //     while ((s = stdInput.readLine()) != null) {
+  //       System.out.println(s);
+  //     }
 
-      // Read command errors
-      System.out.println("Standard error: ");
-      while ((s = stdError.readLine()) != null) {
-       System.out.println(s);
-      }
+  //     // Read command errors
+  //     System.out.println("Standard error: ");
+  //     while ((s = stdError.readLine()) != null) {
+  //      System.out.println(s);
+  //     }
 
-    }catch (Exception e) {
-        e.printStackTrace(System.err);
-    }
-  }
+  //   }catch (Exception e) {
+  //       e.printStackTrace(System.err);
+  //   }
+  // }
 
 
 
   public static void evosuiteRunTests(String packageName, String classname, String classpath){
     try{
+      Runtime rt = Runtime.getRuntime();
+
 
       //set the CLASSPATH environment variable, including :
       //"classpath": This is the root directory which we need for the CUTs
       // evosuite-standalone-runtime-1.0.6.jar: This is the EvoSuite runtime library.
       // evosuite-tests: This is the root directory where we put the test class files
       // junit-4.12.jar and hamcrest-core-1.3.jar: We need JUnit to execute JUnit tests.
-      Runtime rt = Runtime.getRuntime();
       Process proc = rt.exec("set CLASSPATH="+classpath+";evosuite-standalone-runtime-1.0.6.jar;evosuite-tests;junit-4.12.jar;hamcrest-core-1.3.jar ");
       
       // Read command standard output
@@ -358,7 +366,6 @@ public class DevController {
     
     
       //compile the tests in place
-      Runtime rt = Runtime.getRuntime();
       Process proc = rt.exec("javac evosuite-tests/tutorial/*.java");
       
       // Read command standard output
@@ -376,7 +383,6 @@ public class DevController {
 
 
       //run the tests
-      Runtime rt = Runtime.getRuntime();
       Process proc = rt.exec("java org.junit.runner.JUnitCore "+packageName+"."+classname+"_ESTest");
       
       // Read command standard output
