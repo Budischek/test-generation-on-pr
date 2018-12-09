@@ -191,15 +191,20 @@ When it comes to integrating CTG in the CI/CD workflow commonly used in modern S
 
 
 
+\section{Related work}
+\subsection{Continuous Test Generation on Guava}
+For the \cite{barros_continuous_2015} research paper, the authors used EvoSuite for continuous test generation on the Guava library for the SSBSE'15 challange. The Guava library contains more than 300 classes and so generating tests for the library requires a relatively long time. The purpose of the paper was to improve test case generation for the Guava library through implementing continuous test generation to build test cases incrementally over time. Test suite augmentation and time-budget allocation was used to focus the test generation on what had been modified. In the paper, continuous test generation was successful implemented to improve the test generation time.
+
+
 \section{Seeding}
-Since most pull requests won’t modify and affect an entire program, many of the test cases of the previous test suite could still be used to test the new modified version of the program. Instead of creating a new test suite from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency.
+Since most pull requests won’t modify and affect an entire program, many of the test cases of the previous test suite could still be useful to test the new modified version of the program. Instead of creating a new tests from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency \cite{campos_continuous_2014}.
 
 
 
 \subsection{Identify test cases for seeding}
-To create an efficient seeding for EvoSuite, useful test cases from the previous test suite have to be identified. Useful test cases for seeding are the test cases that reaches the modified parts of a pull request.
+To create efficient seeding for EvoSuite, useful test cases from the previous test suite have to be identified. Useful test cases for seeding are the test cases that reaches the modified parts of a pull request.
 
-To identify useful test cases to be used for seeding in our project, each test case was executed separately on the CUTs. JaCoCo was used to collect code coverage information of each executed test case. JaCoCo instruments the byte code of a CUT and inserts probes. For every probe that a test case reaches, the value of the probe is changed from false to true to indicate that the probe was activated and covered by the test case.
+To identify useful test cases to be used for seeding in our project, each test case was executed separately on the CUTs. JaCoCo was used to collect code coverage information of each of the executed test cases. JaCoCo instruments the byte code of a CUT and inserts probes. For every probe that a test case reaches, the value of the probe is changed from false to true to indicate that the probe was activated and covered by the test case.
 
 The probe activation of every test case is stored and compared to the probe activation of the previous test case execution before the pull request. If the probe activation of a specific test case is differing from the previous execution, that test case reaches code that was modified by the pull request. A test case that is identified as reaching modified code, is stored and can later be used for seeding for the test case generation. 
 
