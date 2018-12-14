@@ -259,6 +259,8 @@ The obvious choices for build tools were Maven and Gradle. After some considerat
 We set up a Google Cloud (GC) Build server to monitor our repository and automatically test and build every new commit. To prevent the argument "but it works on my machine" our project is completely dockerized, allowing us to quickly set up a new container with a single gradle command. The build server also automatically stores the finished container in a GC Container Registry and deploys to a virtual machine running 24/7 on GC Computation Engine. While this runs into the issue that multiple commits to different branches will lead to confusion over the currently deployed version, we did not run into any issues as each developer worked on a different schedule.
 
 While there was a lot of initial time investment into getting the build server up and running it paid off, as can be seen by the multitude of commits with messages like "Fixed broken build" that happened right after pushing new changes.
+\subsection{Webhook}
+Developing webhooks on localhost is always a tricky task. For this reason we choose to set up Serveo which creates a tunnel between the instance running locally and a 3rd party server that the webhook connects to.
 
 \section{Conclusion}
 One of the main issues with CTG is the up front time investment to get it up and running in an existing CD pipeline. With our project we present a simple way of adding CTG to an existing project without making any changes directly to the repository under test. While we only provide a few default modules the clean and simple interfaces between each module make it easy to develop your own and simply plug them into our solution.
