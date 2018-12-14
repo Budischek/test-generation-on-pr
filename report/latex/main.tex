@@ -147,10 +147,10 @@
 
 {\Large \underline{Group 5} \\
 Mathias Sixten \\
-Yixuan  \\
-David Budischek, 201863  \\
-Gaspard \\
-Gustav Janér, 20186416 \\
+Yixuan Huang  \\
+David Budischek  \\
+Gaspard Murat \\
+Gustav Janér \\
 } % Authors of the document
 
 \vspace{0.3cm}
@@ -221,11 +221,47 @@ Modularization plays a big role in developing a platform agnostic tool. With our
 \end{itemize}
 
 Out of these modules the CTG algorithm can be considered the heart of our program. It connects to the three other modules via the following simple interfaces.
-\section{Results}
 
+\begin{itemize}
+  \item AbstractGitService
+  \begin{itemize}
+    \item getRepositoryPath(String repoUrl) \\
+    Clones the repository to local storage and returns the file path
+    \item reportResults(int id, String msg) \\
+    This is used to report the final results of the CTG process (e.g. new Branch coverage). In the example of a Github Pull request the id is provided by the webhook and the results are stored as a comment on the Pull request page
+  \end{itemize}
+  \item AbstractPersistenceController \\
+  Provides two seperate persistence functionalities. Firstly to store a complete testsuite and secondly a Key Value store for the CTG algorithm to persist meta data (e.g. branch coverage for each individual test or a reference to the most up to date test suite).
+  For now the KV store simply handles Strings, but this functionality should be extended to AbstractKey/AbstractValue types for more flexibility.
+  \begin{itemize}
+    \item persistTestSuite(String identifier, TestSuite testSuite)
+    \item getTestSuite(String identifier)
+    \item storeMetadata(String key, String value)
+    \item getMetadata(String key)
+  \end{itemize}
+  \item AbstractTestGenerator
+  \begin{itemize}
+    \item generateTestSuite(TestGenerationRequest request)
+  \end{itemize}
+  \item AbstractCTGStrategy
+  \begin{itemize}
+    \item newPRTrigger(String identifier) \\
+    This is triggered by the webhook whenever new source code is available. The identifier depends on the VCS + Platform. In the case of Github we can simply use the pull request id.
+  \end{itemize}
+\end{itemize}
+
+\section{Development Environment}
+The main consideration while planning our development environment and CI/CD pipeline was ease of use. As the majority of our team has little to no experience with larger scale group projects it is important that the time spent on merging conflicts, build errors, etc. is minimized. This was the main reason we even opted to spend the time setting up automatic builds and deployment, as they would guarantee a consistent and workable state in the repository and prevent team members from merging code that has obvious errors (e.g. doesn't build).
+
+\subsection{Build Tool} 
+The obvious choices for build tools were Maven and Gradle. After some consideration, and keeping in mind that only one team member has actual experience working with these tools we decided to go with Gradle, as its simple, groovy definition language can easily be modified without any further knowledge about how gradle works.
+\subsection{CI/CD}
+We set up a Google Cloud (GC) Build server to monitor our repository and automatically test and build every new commit. To prevent the argument "but it works on my machine" our project is completely dockerized, allowing us to quickly set up a new container with a single gradle command. The build server also automatically stores the finished container in a GC Container Registry and deploys to a virtual machine running 24/7 on GC Computation Engine. While this runs into the issue that multiple commits to different branches will lead to confusion over the currently deployed version, we did not run into any issues as each developer worked on a different schedule.
+
+While there was a lot of initial time investment into getting the build server up and running it paid off, as can be seen by the multitude of commits with messages like "Fixed broken build" that happened right after pushing new changes.
 
 \section{Conclusion}
-
+One of the main issues with CTG is the up front time investment to get it up and running in an existing CD pipeline. With our project we present a simple way of adding CTG to an existing project without making any changes directly to the repository under test. While we only provide a few default modules the clean and simple interfaces between each module make it easy to develop your own and simply plug them into our solution.
 
 
 % --------------------------------------------------------
