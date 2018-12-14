@@ -1,8 +1,8 @@
-package kr.ac.kaist.testonpr.service;
+package kr.ac.kaist.testonpr.gitservice;
 
 import java.util.List;
 
-public abstract class GitService {
+public abstract class AbstractGitService {
 
   public abstract String getRepositoryPath(String repoUrl);
 

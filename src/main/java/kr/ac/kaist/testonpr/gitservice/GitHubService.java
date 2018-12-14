@@ -1,4 +1,4 @@
-package kr.ac.kaist.testonpr.service;
+package kr.ac.kaist.testonpr.gitservice;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class GitHubService extends GitService{
+public class GitHubService extends AbstractGitService {
 
   @Value("${github-oauth}")
   private String token;
@@ -38,9 +38,7 @@ public class GitHubService extends GitService{
 
   public void cloneRepository(String repoUrl, String path) {
     try {
-      System.out.println("Deleting "+ path);
       FileUtils.deleteDirectory(new File(path));
-      System.out.println("Cloning "+repoUrl+" into "+ path);
       Git.cloneRepository()
               .setURI(repoUrl)
               .setDirectory(new File(path))
@@ -49,7 +47,6 @@ public class GitHubService extends GitService{
                               "cs454testonpr")
               )
               .call();
-      System.out.println("Completed Cloning");
     } catch (Exception e) {
       System.out.println("Exception occurred while cloning repo");
       e.printStackTrace();

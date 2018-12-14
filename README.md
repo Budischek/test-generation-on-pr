@@ -36,7 +36,7 @@ ssh -R cs454:80:localhost:8080 serveo.ne
 ```
 ./gradlew bootRun
 localhost:8080/{apiEndpoint}
-//while developing just use /dev in DevController
+//while developing just use /dev in WebController
 localhost:8080/clone
 //download test repository
 //go into test repository and run build script for .class files
