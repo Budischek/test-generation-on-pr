@@ -211,6 +211,18 @@ The probe activation of every test case is stored and compared to the probe acti
 For a program $P$, test cases $TC$, and a modified version $P'$ of $P$: to identify useful test cases of $TC$ for seeding, all test cases $TC$ are executed on $P$ and then $P'$. Any test case $TC$ that has differing probe activation of $P$ and $P'$, reaches modified parts of $P'$.
 
 
+\section{Modularity}
+Modularization plays a big role in developing a platform agnostic tool. With our out of the box CTG solution we want to be able to easily integrate it with different version control systems, persistent data storages or even test generation tools. For that reason we designed a set of interfaces that keep coupling between components minimal and allows us to quickly develop new modules to extend functionality. The system consists of four modules:
+
+\begin{itemize}
+  \item Source Code Repository
+  \item Persistence
+  \item CTG Algorithm
+  \item Test Generation
+\end{itemize}
+
+Out of these modules the CTG algorithm can be considered the heart of our program. It connects to the three other modules via the following simple interfaces.
+
 
 \section{Results}
 
