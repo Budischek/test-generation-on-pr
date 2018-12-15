@@ -193,11 +193,11 @@ When it comes to integrating CTG in the CI/CD workflow commonly used in modern S
 
 \section{Related work}
 \subsection{Continuous Test Generation on Guava}
-For the \cite{barros_continuous_2015} research paper, the authors used EvoSuite for continuous test generation on the Guava library for the SSBSE'15 challange. The Guava library contains more than 300 classes and so generating tests for the library requires a relatively long time. The purpose of the paper was to improve test case generation for the Guava library through implementing continuous test generation to build test cases incrementally over time. Test suite augmentation and time-budget allocation was used to focus the test generation on what had been modified. In the paper, continuous test generation was successful implemented to improve the test generation time.
+For the \cite{barros_continuous_2015} research paper, the authors used EvoSuite for continuous test generation on the Guava library for the SSBSE'15 challange. The Guava library contains more than 300 classes and so generating tests for the library requires a relatively long time. The purpose of the paper was to improve test case generation for the Guava library through implementing continuous test generation to build test cases incrementally over time. Test suite augmentation and time-budget allocation was used to focus the test generation on what had been modified. In the paper, continuous test generation was successfully implemented to improve the test generation time.
 
 
 \section{Seeding}
-Since most pull requests won’t modify and affect an entire program, many of the test cases of the previous test suite could still be useful to test the new modified version of the program. Instead of creating a new tests from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency \cite{campos_continuous_2014}.
+Since most pull requests won’t modify and affect an entire program, many of the test cases of a previous test suite could still be useful to test the new modified version of a program. Instead of creating new tests from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency \cite{campos_continuous_2014}.
 
 
 
@@ -208,7 +208,7 @@ To identify useful test cases to be used for seeding in our project, each test c
 
 The probe activation of every test case is stored and compared to the probe activation of the previous test case execution before the pull request. If the probe activation of a specific test case is differing from the previous execution, that test case reaches code that was modified by the pull request. A test case that is identified as reaching modified code, is stored and can later be used for seeding for the test case generation. 
 
-For a program $P$, test cases $TC$, and a modified version $P'$ of $P$: to identify useful test cases of $TC$ for seeding, all test cases $TC$ are executed on $P$ and then $P'$. Any test case $TC$ that has differing probe activation of $P$ and $P'$, reaches modified parts of $P'$.
+For a program $P$, test cases $TC$, and a modified version $P'$ of $P$: to identify useful test cases in $TC$ for seeding, all test cases $TC$ are executed on $P$ and then $P'$. Any test case in $TC$ that has differing probe activation of $P$ and $P'$, reaches modified parts of $P'$.
 
 \section{Modularity}
 Modularization plays a big role in developing a platform agnostic tool. With our out of the box CTG solution we want to be able to easily integrate it with different version control systems, persistent data storages or even test generation tools. For that reason we designed a set of interfaces that keep coupling between components minimal and allows us to quickly develop new modules to extend functionality. The system consists of four modules:
