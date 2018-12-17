@@ -262,6 +262,9 @@ While there was a lot of initial time investment into getting the build server u
 \subsection{Webhook}
 Developing webhooks on localhost is always a tricky task. For this reason we choose to set up Serveo which creates a tunnel between the instance running locally and a 3rd party server that the webhook connects to.
 
+\subsection{EvoSuite}
+We need EvoSuite in our system so that we can test the third party project, the repository under test. More specific, firstly, we want to invoke EvoSuite on the Class under test to generate the tests. Then we want to compiler the tests with EvoSuite. And finally, we need to run these tests with JUnit. 
+
 \section{Conclusion}
 One of the main issues with CTG is the up front time investment to get it up and running in an existing CD pipeline. With our project we present a simple way of adding CTG to an existing project without making any changes directly to the repository under test. While we only provide a few default modules the clean and simple interfaces between each module make it easy to develop your own and simply plug them into our solution.
 
