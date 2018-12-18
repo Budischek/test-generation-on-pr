@@ -127,7 +127,7 @@
 %	                 Heading Sections
 % --------------------------------------------------------
 
-\textsc{\LARGE Artificial Intelligence Based Software Engineering} \\[1cm]
+\textsc{\LARGE Artificial Intelligence Based\\[0.1cm] Software Engineering} \\[1cm]
 % Major heading such as course name
 
 \textsc{\Large Project Report}\\[0.5cm]
@@ -137,9 +137,9 @@
 %	                   Title Section
 % --------------------------------------------------------
 
-\HRule \\[0.4cm]
-{ \huge \bfseries Continuous Test Generation on Pull Request}\\[0.03cm] % Title of the document
-\HRule \\[1.5cm]
+\HRule \\[0.2cm]
+{ \huge \bfseries Continuous Test Generation on \\[0.1cm] Pull Request}\\[0.2cm] % Title of the document
+\HRule \\[1.0cm]
  
 % --------------------------------------------------------
 %	               Date and Names Section
@@ -172,8 +172,6 @@ Gustav Janér \\
 %		  		          MAIN
 % ********************************************************
 
-\section*{Abstract}
--
 
 \section{Introduction}
 Over the past decades software release cycles have shortened repeatedly. Two decades ago it was common place to release software and then maybe follow up with a patch (in the form of a physical hard disk) a few years down the line. From that we went to pushing out monthly, or even weekly, security updates. In recent years though, it became common place to not bundle releases anymore. Instead every single feature/bug/typo fix is published instantaneously and pushed to every user. With Continuous Delivery come a plethora of challenges. One of which is testing. In a traditional release cycle there is enough time to hand over the release candidate to QA and give them time to verify functionality. But this won't do nowadays. Instead we rely on automated tests to quickly verify functionality. In practice, tests can never guarantee a bugfree product, instead they can only try and cover as much of the code as possible. 
