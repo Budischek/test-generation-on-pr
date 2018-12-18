@@ -127,7 +127,7 @@
 %	                 Heading Sections
 % --------------------------------------------------------
 
-\textsc{\LARGE Artificial Intelligence Based Software Engineering} \\[1cm]
+\textsc{\LARGE Artificial Intelligence Based\\[0.1cm] Software Engineering} \\[1cm]
 % Major heading such as course name
 
 \textsc{\Large Project Report}\\[0.5cm]
@@ -137,9 +137,9 @@
 %	                   Title Section
 % --------------------------------------------------------
 
-\HRule \\[0.4cm]
-{ \huge \bfseries Title of project..}\\[0.03cm] % Title of the document
-\HRule \\[1.5cm]
+\HRule \\[0.2cm]
+{ \huge \bfseries Continuous Test Generation on \\[0.1cm] Pull Request}\\[0.2cm] % Title of the document
+\HRule \\[1.0cm]
  
 % --------------------------------------------------------
 %	               Date and Names Section
@@ -147,10 +147,10 @@
 
 {\Large \underline{Group 5} \\
 Mathias Sixten \\
-Yixuan  \\
+Yixuan Huang  \\
 David Budischek  \\
-Gaspard \\
-Gustav Janér, 20186416 \\
+Gaspard Murat \\
+Gustav Janér \\
 } % Authors of the document
 
 \vspace{0.3cm}
@@ -172,27 +172,99 @@ Gustav Janér, 20186416 \\
 %		  		          MAIN
 % ********************************************************
 
-\section*{Abstract}
-blabla
-
-\newpage
-
-\tableofcontents % Prints the table of contents
-\newpage
 
 \section{Introduction}
-blabla example citation from references.bib\cite{google}.
+Over the past decades software release cycles have shortened repeatedly. Two decades ago it was common place to release software and then maybe follow up with a patch (in the form of a physical hard disk) a few years down the line. From that we went to pushing out monthly, or even weekly, security updates. In recent years though, it became common place to not bundle releases anymore. Instead every single feature/bug/typo fix is published instantaneously and pushed to every user. With Continuous Delivery come a plethora of challenges. One of which is testing. In a traditional release cycle there is enough time to hand over the release candidate to QA and give them time to verify functionality. But this won't do nowadays. Instead we rely on automated tests to quickly verify functionality. In practice, tests can never guarantee a bugfree product, instead they can only try and cover as much of the code as possible. 
 
-\subsection{subsec}
+In addition to manually writing tests there are advanced unit test generation tools available (such as EvoSuite or Pex). While these tools require no manual input, they do require a lot of computation time. In their 2014 paper \cite{campos_continuous_2014} the authors of EvoSuite propose a solution to this issue, Continuous Test Generation. Instead of a greenfield test generation for each new iteration, they leverage previous results to speed up the test generation process. In their research this is done by smartly allocating resources to the classes that changed or are not yet fully covered.
+
+When it comes to integrating CTG in the CI/CD workflow commonly used in modern Software projects there is little literature available. In a case study done as part of the SSBSE'15 challenge \cite{barros_continuous_2015} we can clearly see that CTG performs well enough to warrant implementation. Due to this we implemented an out of the box, platform agnostic tool to easily add CTG to an existing project without interfering with the infrastructure that has previously been set up.
 
 
-\section{Body}
+
+\section{GitHub repositories}
+\url{https://github.com/Budischek/test-generation-on-pr} - Project Repository
+
+\url{https://github.com/Budischek/CS454} - Repository under test
 
 
-\section{Results}
 
+\section{Related work}
+\subsection{Continuous Test Generation on Guava}
+For the \cite{barros_continuous_2015} research paper, the authors used EvoSuite for continuous test generation on the Guava library for the SSBSE'15 challange. The Guava library contains more than 300 classes and so generating tests for the library requires a relatively long time. The purpose of the paper was to improve test case generation for the Guava library through implementing continuous test generation to build test cases incrementally over time. Test suite augmentation and time-budget allocation was used to focus the test generation on what had been modified. In the paper, continuous test generation was successfully implemented to improve the test generation time.
+
+
+\section{Seeding}
+Since most pull requests won’t modify and affect an entire program, many of the test cases of a previous test suite could still be useful to test the new modified version of a program. Instead of creating new tests from scratch to test every pull request, seeding can be leveraged to increase test generation efficiency \cite{campos_continuous_2014}.
+
+
+
+\subsection{Identify test cases for seeding}
+To create efficient seeding for EvoSuite, useful test cases from the previous test suite have to be identified. Useful test cases for seeding are the test cases that reaches the modified parts of a pull request.
+
+To identify useful test cases to be used for seeding in our project, each test case was executed separately on the CUTs. JaCoCo was used to collect code coverage information of each of the executed test cases. JaCoCo instruments the byte code of a CUT and inserts probes. For every probe that a test case reaches, the value of the probe is changed from false to true to indicate that the probe was activated and covered by the test case.
+
+The probe activation of every test case is stored and compared to the probe activation of the previous test case execution before the pull request. If the probe activation of a specific test case is differing from the previous execution, that test case reaches code that was modified by the pull request. A test case that is identified as reaching modified code, is stored and can later be used for seeding for the test case generation. 
+
+For a program $P$, test cases $TC$, and a modified version $P'$ of $P$: to identify useful test cases in $TC$ for seeding, all test cases $TC$ are executed on $P$ and then $P'$. Any test case in $TC$ that has differing probe activation of $P$ and $P'$, reaches modified parts of $P'$.
+
+\section{Modularity}
+Modularization plays a big role in developing a platform agnostic tool. With our out of the box CTG solution we want to be able to easily integrate it with different version control systems, persistent data storages or even test generation tools. For that reason we designed a set of interfaces that keep coupling between components minimal and allows us to quickly develop new modules to extend functionality. The system consists of four modules:
+
+\begin{itemize}
+  \item Source Code Repository
+  \item Persistence
+  \item CTG Algorithm
+  \item Test Generation
+\end{itemize}
+
+Out of these modules the CTG algorithm can be considered the heart of our program. It connects to the three other modules via the following simple interfaces.
+
+\begin{itemize}
+  \item AbstractGitService
+  \begin{itemize}
+    \item getRepositoryPath(String repoUrl) \\
+    Clones the repository to local storage and returns the file path
+    \item reportResults(int id, String msg) \\
+    This is used to report the final results of the CTG process (e.g. new Branch coverage). In the example of a Github Pull request the id is provided by the webhook and the results are stored as a comment on the Pull request page
+  \end{itemize}
+  \item AbstractPersistenceController \\
+  Provides two seperate persistence functionalities. Firstly to store a complete testsuite and secondly a Key Value store for the CTG algorithm to persist meta data (e.g. branch coverage for each individual test or a reference to the most up to date test suite).
+  For now the KV store simply handles Strings, but this functionality should be extended to AbstractKey/AbstractValue types for more flexibility.
+  \begin{itemize}
+    \item persistTestSuite(String identifier, TestSuite testSuite)
+    \item getTestSuite(String identifier)
+    \item storeMetadata(String key, String value)
+    \item getMetadata(String key)
+  \end{itemize}
+  \item AbstractTestGenerator
+  \begin{itemize}
+    \item generateTestSuite(TestGenerationRequest request)
+  \end{itemize}
+  \item AbstractCTGStrategy
+  \begin{itemize}
+    \item newPRTrigger(String identifier) \\
+    This is triggered by the webhook whenever new source code is available. The identifier depends on the VCS + Platform. In the case of Github we can simply use the pull request id.
+  \end{itemize}
+\end{itemize}
+
+\section{Development Environment}
+The main consideration while planning our development environment and CI/CD pipeline was ease of use. As the majority of our team has little to no experience with larger scale group projects it is important that the time spent on merging conflicts, build errors, etc. is minimized. This was the main reason we even opted to spend the time setting up automatic builds and deployment, as they would guarantee a consistent and workable state in the repository and prevent team members from merging code that has obvious errors (e.g. doesn't build).
+
+\subsection{Build Tool} 
+The obvious choices for build tools were Maven and Gradle. After some consideration, and keeping in mind that only one team member has actual experience working with these tools we decided to go with Gradle, as its simple, groovy definition language can easily be modified without any further knowledge about how gradle works.
+\subsection{CI/CD}
+We set up a Google Cloud (GC) Build server to monitor our repository and automatically test and build every new commit. To prevent the argument "but it works on my machine" our project is completely dockerized, allowing us to quickly set up a new container with a single gradle command. The build server also automatically stores the finished container in a GC Container Registry and deploys to a virtual machine running 24/7 on GC Computation Engine. While this runs into the issue that multiple commits to different branches will lead to confusion over the currently deployed version, we did not run into any issues as each developer worked on a different schedule.
+
+While there was a lot of initial time investment into getting the build server up and running it paid off, as can be seen by the multitude of commits with messages like "Fixed broken build" that happened right after pushing new changes.
+\subsection{Webhook}
+Developing webhooks on localhost is always a tricky task. For this reason we choose to set up Serveo which creates a tunnel between the instance running locally and a 3rd party server that the webhook connects to.
+
+\subsection{EvoSuite}
+We need EvoSuite in our system so that we can test the third party project, the repository under test. More specific, firstly, we want to invoke EvoSuite on the Class under test to generate the tests. Then we want to compiler the tests with EvoSuite. And finally, we need to run these tests with JUnit. 
 
 \section{Conclusion}
+One of the main issues with CTG is the up front time investment to get it up and running in an existing CD pipeline. With our project we present a simple way of adding CTG to an existing project without making any changes directly to the repository under test. While we only provide a few default modules the clean and simple interfaces between each module make it easy to develop your own and simply plug them into our solution.
 
 
 % --------------------------------------------------------
